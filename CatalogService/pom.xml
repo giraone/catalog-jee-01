@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.giraone.samples.catalog1</groupId>
+	<artifactId>CatalogService</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>catalog-service-01</name>
+
+	<description>This project is a sample JEE/REST web project. It uses a simple JPA entity model with "employees" that are assigned to "cost centers".</description>
+
+	<inceptionYear>2015</inceptionYear>
+	<organization>
+		<name>GiraOne</name>
+		<url>http://www.giraone.com</url>
+	</organization>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jackson.version>2.6.3</jackson.version>
+		<log4j.version>2.4.1</log4j.version>
+		<org.mapstruct.version>1.0.0.Final</org.mapstruct.version>
+		
+		<swagger.codegen.version>2.1.4</swagger.codegen.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>javax</groupId>
+				<artifactId>javaee-api</artifactId>
+				<version>7.0</version>
+			</dependency>
+			
+			<!-- 
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<version>${swagger.codegen.version}</version>
+			</dependency>
+		 	-->
+
+			<!-- Jackson as the JSON serializer/deserializer (currently test only) -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.jaxrs</groupId>
+				<artifactId>jackson-jaxrs-json-provider</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-annotations</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+			  
+			<!-- Log4J as logging framework -->
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-api</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-core</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+
+			<!-- Brand new MapStruct is needed for DTO to JPA entity transformation and vice versa -->
+		    <dependency>
+		        <groupId>org.mapstruct</groupId>
+		        <artifactId>mapstruct</artifactId>
+		        <version>${org.mapstruct.version}</version>
+		    </dependency>
+			
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+			</dependency>
+			<dependency>
+				<groupId>com.jayway.restassured</groupId>
+				<artifactId>rest-assured</artifactId>
+				<version>2.7.0</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.json</groupId>
+				<artifactId>javax.json-api</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish</groupId>
+				<artifactId>javax.json</artifactId>
+				<version>1.0.4</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<!--
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-codegen-maven-plugin</artifactId>
+			<version>${swagger.codegen.version}</version>
+		</dependency>
+		-->
+			
+		<!-- Log4J as logging framework -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+		</dependency>
+		<!-- Brand new MapStruct is needed for DTO to JPA entity transformation and vice versa -->
+	    <dependency>
+	        <groupId>org.mapstruct</groupId>
+	        <artifactId>mapstruct</artifactId>
+	    </dependency>
+			
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.restassured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.json</groupId>
+			<artifactId>javax.json-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.json</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<!-- Maven will append the version to the finalName (which is the name given to the war, and hence the context root) -->
+		<finalName>${project.artifactId}</finalName>
+		
+		<plugins>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+		</plugins>
+<!--
+
+			<plugin>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<version>${swagger.codegen.version}</version>
+				<configuration>
+					<inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
+					<configOptions>
+						<sourceFolder>main/java</sourceFolder>
+					</configOptions>
+					<output>${project.build.directory}/generated-sources</output>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-swagger-javaclient</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<language>java</language>
+							<modelPackage>${project.groupId}.boundary.model</modelPackage>
+							<apiPackage>${project.groupId}.boundary.api</apiPackage>
+							<invokerPackage>${project.groupId}.boundary.invoker</invokerPackage>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.9.1</version>
+				<executions>
+					<execution>
+						<id>add-generated-source</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${generated-sources-path}/${generated-sources-java-path}</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+-->
+		<!-- the following is only necessary if you are using eclipse and m2e -->
+<!--
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>io.swagger</groupId>
+										<artifactId>swagger-codegen-maven-plugin</artifactId>
+										<versionRange>[${swagger.codegen.version},)</versionRange>
+										<goals>
+											<goal>generate</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+-->
+	</build>
+</project>

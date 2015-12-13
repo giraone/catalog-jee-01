@@ -1,0 +1,89 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Catalog Service REST API"
+    },
+    "host": "catalogjee01.eu-gb.mybluemix.net/",
+    "basePath": "/api",
+    "schemes": [
+        "http",
+		"https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/catalogs/{catalogId}/{textScope}": {
+            "get": {
+				"summary": "Return the full catalog (list of code/text pairs)"
+				"description": "Return the full catalog (list of key code/text) for the given text scope (usually the language) in a defined order."
+                "operationId": "fetchCatalogForScope",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "orderby",
+                        "in": "query",
+                        "description": "OData orderby parameter. There are only 2 valid orders: orderby=code ASC or orderby=text ASC",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Collection of code/text pairs is returned",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/CodeTextPair"
+                            }
+                        }
+                    },
+					"404": {
+                        "description": "Catalog with given catalogId not found",
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "schema": {
+                            "$ref": "#/definitions/errorModel"
+                        }
+                    }
+                }
+            },
+    "definitions": {
+        "CodeTextPair": {
+            "required": [
+                "code",
+                "text"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                }
+            }
+        },
+        "errorModel": {
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

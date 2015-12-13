@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Catalog Upload</title>
+</head>
+<body>
+	<h1>Catalog Upload using local file</h1>
+	<form action="admin-api/catalogs/form-upload-file" method="post" enctype="multipart/form-data">
+		<label for="">Catalog ID</label><input type="text" name="catalogId" placeholder="catalog id, e.g. iso-3166-1-alpha2" value="iso-3166-1-alpha2"/><br />
+		<label for="">Catalog Version</label><input type="text" name="catalogVersion" placeholder="version (integer starting with 0)" value="0"/><br />
+		<label for="">Entry Column</label><input type="text" name="scope" placeholder="language, e.g. en, de" value="de"/><br />
+		<label for="">CSV File</label><input type="file" name="attachment" /><br />
+		<input type="submit" value="Submit" />
+	</form>
+	
+	<hr />
+	
+	<h1>Catalog Upload using server file</h1>
+	<form action="admin-api/catalogs/server-load" method="post">
+		<label for="">Catalog ID</label><input type="text" name="catalogId" placeholder="catalog id, e.g. iso-3166-1-alpha2" value="iso-3166-1-alpha2"/><br />
+		<label for="">Catalog Version</label><input type="text" name="catalogVersion" placeholder="version (integer starting with 0)" value="0"/><br />
+		<label for="">Entry Column</label><input type="text" name="scope" placeholder="language, e.g. en, de" value="de"/><br />
+		<input type="submit" value="Submit" />
+	</form>
+	
+</body>
+</html>

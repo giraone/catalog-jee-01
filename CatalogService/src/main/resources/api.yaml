@@ -1,0 +1,65 @@
+# Catalog Service REST API
+swagger: '2.0'
+info:
+  title: Catalog Service REST API
+  description: REST API for enumerations and dictionaries
+  version: "1.0.0"
+# the domain of the service
+host: secure4.datev.de
+basePath: catalog-service
+# array of all schemes that your API supports
+schemes:
+  - http
+  - https
+# will be prefixed to all paths
+basePath: /v1
+produces:
+  - application/json
+
+paths:
+  /catalogs/{catalogId}/{scope}:
+    get:
+      summary: "Return the full catalog (list of code/text pairs)"
+      description: "Return the full catalog (list of key code/text) for the given text scope (usually the language) in a defined order."
+      operationId: fetchCatalogForScope
+      parameters:
+        - name: orderby
+          in: query
+          description: "OData orderby parameter. There are only 2 valid orders: orderby=code ASC or orderby=text ASC"
+          required: false
+          type: string
+      responses:
+        200:
+          description: "Collection of code/text pairs is returned."
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CodeTextPair'
+        404:
+          description: "Catalog with given catalogId not found"
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Error:
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
+  CodeTextPair:
+    properties:
+      code:
+        type: string
+        description: "Unique identifier for a catalog entry (the code)"
+        required: true
+      text:
+        type: string
+        description: "A scope (language) dependend text for the code"
+        required: true
