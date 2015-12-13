@@ -14,7 +14,7 @@
 		<!-- This is for Bluemix with sqldb and cloudAutowiring-1.0 -->
 		<!-- <jta-data-source>java:comp/env/jdbc/mydbdatasource</jta-data-source> -->
 		<!-- This is for Cloud Foundry (Bluemix or Pivotal) and WLP 8.5.5.7 without autowiring -->
-		<!-- <jta-data-source>jdbc/pmssamplejee1sqldb</jta-data-source> -->
+		<!-- <jta-data-source>jdbc/catalogjee1sqldb</jta-data-source> -->
 		
 		<properties>
 
