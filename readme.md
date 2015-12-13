@@ -1,8 +1,8 @@
-# JEE (micro) service for store catalog data
+# JEE (micro) service to store catalog data
 
-This is a JEE implementation of a service to store catalog data. By catalog data, we mean language dependant larger dictionaries of codes, e.g. languages, countries, states or other enumerations.
+This is a JEE implementation of a service to store catalog data. By catalog data, larger language dependant dictionaries of codes are meant, e.g. languages, countries, states or other enumerations.
 
-The service will return code/text (key/value) pairs for enumerations, where the text is available in different scopes, e.g. languages. An example for such a dictionary is  e.g.
+The service will return code/text (key/value) pairs for enumerations, where the text is available in different scopes, e.g. languages. An example for such a dictionary would be e.g.
 
 ```
 [
@@ -16,7 +16,7 @@ The service will return code/text (key/value) pairs for enumerations, where the 
 ]
 ```
 
-This is a subset of the ISO-3166-1-Alpha2 country codes, with their englisch name. The same list for the german version would be:
+This is a subset of the ISO-3166-1-Alpha2 country codes, with their englisch names. The same list for the german version would be:
 
 ```
 [
@@ -30,7 +30,7 @@ This is a subset of the ISO-3166-1-Alpha2 country codes, with their englisch nam
 ]
 ```
 
-The above example are available using the URLS
+The above example are available using the URLs:
 - [http://catalogjee1.eu-gb.mybluemix.net/api/catalogs/iso-3166-1-alpha2/scope-list/en]
 - [http://catalogjee1.eu-gb.mybluemix.net/api/catalogs/iso-3166-1-alpha2/scope-list/de]
 
@@ -48,7 +48,8 @@ mvn package
 ```
 
 ## Goals of this project ##
-- Providing language dependant dictionaries in JSON format for rich internet application. 
+- Providing language dependant dictionaries in JSON format for rich internet application.
+- Validating codes in JAX-RS requests when JSON models are using these kind of enumerations, that are to large for Java *enum*.
 
 ## TODOs ##
 - Caching support for the service.
