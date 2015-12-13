@@ -1,22 +1,25 @@
 package com.giraone.samples.catalog1.boundary.model;
 
-public class BulkLoadResult
+import java.io.Serializable;
+
+public class BulkLoadResult implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	public static final int STATUS_OK = 0;
 	public static final int STATUS_OK_WITH_ERRORS = 1;
 	public static final int STATUS_STOP_ON_ERROR_LIMIT = 2;
 	public static final int STATUS_STOP_ON_SEVERE_ERROR = 3;
 	
 	int status;
+	String errorMessage;
 	
 	int receivedEntries;
 	int successfullyProcessedEntries;
-	int successfullyAddedEntries;
-	int successfullyUpdatedEntries;
 	int skippedEntriesOnError;
 	
-	String errorMessage;
-	
+	long timeInMilliSeconds;
+		
 	public int getStatus()
 	{
 		return status;
@@ -24,7 +27,17 @@ public class BulkLoadResult
 	public void setStatus(int status)
 	{
 		this.status = status;
+	}	
+	public String getErrorMessage()
+	{
+		return errorMessage;
 	}
+	public void setErrorMessage(String errorMessage)
+	{
+		this.errorMessage = errorMessage;
+	}
+	
+	
 	public int getReceivedEntries()
 	{
 		return receivedEntries;
@@ -41,22 +54,6 @@ public class BulkLoadResult
 	{
 		this.successfullyProcessedEntries = successfullyProcessedEntries;
 	}
-	public int getSuccessfullyAddedEntries()
-	{
-		return successfullyAddedEntries;
-	}
-	public void setSuccessfullyAddedEntries(int successfullyAddedEntries)
-	{
-		this.successfullyAddedEntries = successfullyAddedEntries;
-	}
-	public int getSuccessfullyUpdatedEntries()
-	{
-		return successfullyUpdatedEntries;
-	}
-	public void setSuccessfullyUpdatedEntries(int successfullyUpdatedEntries)
-	{
-		this.successfullyUpdatedEntries = successfullyUpdatedEntries;
-	}
 	public int getSkippedEntriesOnError()
 	{
 		return skippedEntriesOnError;
@@ -66,12 +63,12 @@ public class BulkLoadResult
 		this.skippedEntriesOnError = skippedEntriesOnError;
 	}
 	
-	public String getErrorMessage()
+	public long getTimeInMilliSeconds()
 	{
-		return errorMessage;
+		return timeInMilliSeconds;
 	}
-	public void setErrorMessage(String errorMessage)
+	public void setTimeInMilliSeconds(long timeInMilliSeconds)
 	{
-		this.errorMessage = errorMessage;
+		this.timeInMilliSeconds = timeInMilliSeconds;
 	}
 }

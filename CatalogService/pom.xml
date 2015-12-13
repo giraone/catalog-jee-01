@@ -22,6 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jackson.version>2.6.3</jackson.version>
 		<log4j.version>2.4.1</log4j.version>
+		<commons.csv.version>1.2</commons.csv.version>
 		<org.mapstruct.version>1.0.0.Final</org.mapstruct.version>
 		
 		<swagger.codegen.version>2.1.4</swagger.codegen.version>
@@ -43,6 +44,13 @@
 			</dependency>
 		 	-->
 
+			<!-- Commons CSV for load interface -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-csv</artifactId>
+				<version>${commons.csv.version}</version>
+			</dependency>
+			
 			<!-- Jackson as the JSON serializer/deserializer (currently test only) -->
 			<dependency>
 				<groupId>com.fasterxml.jackson.jaxrs</groupId>
@@ -115,7 +123,13 @@
 			<version>${swagger.codegen.version}</version>
 		</dependency>
 		-->
-			
+
+		<!-- Commons CSV for load interface -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+		</dependency>
+						
 		<!-- Log4J as logging framework -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
