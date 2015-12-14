@@ -16,7 +16,7 @@ The service will return code/text (key/value) pairs for enumerations, where the 
 ]
 ```
 
-This is a subset of the ISO-3166-1-Alpha2 country codes, with their englisch names. The same list for the german version would be:
+This is a subset of the ISO-3166-1-Alpha2 country codes, with their english names. The same list for the german version would be:
 
 ```
 [
@@ -30,7 +30,7 @@ This is a subset of the ISO-3166-1-Alpha2 country codes, with their englisch nam
 ]
 ```
 
-The above example are available using the URLs:
+The above examples are available using the URLs:
 - [http://catalogjee1.eu-gb.mybluemix.net/api/catalogs/iso-3166-1-alpha2/scope-list/en]
 - [http://catalogjee1.eu-gb.mybluemix.net/api/catalogs/iso-3166-1-alpha2/scope-list/de]
 
