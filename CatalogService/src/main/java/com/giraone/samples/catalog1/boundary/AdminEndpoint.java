@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
@@ -43,6 +45,7 @@ import com.giraone.samples.common.boundary.MultipartRequestMap;
  * Administration (bulk load) end point for catalogs
  * 
  * TODO: http://stackoverflow.com/questions/25797650/fileupload-with-jaxrs
+ * // https://developer.ibm.com/answers/questions/232491/2-problems-on-liberty-jax-rs-20-rest-service-app.html
  */
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
@@ -56,28 +59,9 @@ public class AdminEndpoint extends BaseEndpoint
 	private UserTransaction userTransaction;
 
 	@POST
-	@Path("/{catalogId}/${catalogVersion}")
+	@Path("/reload")
 	@Produces("application/json; charset=UTF-8")
-	public Response reloadFromServerFile(
-		@PathParam("catalogId") String catalogId,
-		@PathParam("catalogVersion") int catalogVersion)
-	{
-		BulkLoadResult result = new BulkLoadResult();
-
-		CatalogEntry sample = new CatalogEntry();
-		sample.setCatalogId(catalogId);
-		sample.setCatalogVersion(catalogVersion);
-
-		String fileName = "C:/Workspaces/GitHub/catalog-jee-01/CatalogService/data/" + catalogId + ".csv";
-
-		this.load(sample, fileName, result);
-		return Response.ok(result).build();
-	}
-
-	@POST
-	@Path("/server-load")
-	@Produces("application/json; charset=UTF-8")
-	public Response httpLoadFromServerFile(
+	public Response loadServerFile(
 		@FormParam("catalogId") String catalogId,
 		@FormParam("catalogVersion") int catalogVersion)
 	{
@@ -87,17 +71,60 @@ public class AdminEndpoint extends BaseEndpoint
 		sample.setCatalogId(catalogId);
 		sample.setCatalogVersion(catalogVersion);
 
-		String fileName = "C:/Workspaces/GitHub/catalog-jee-01/CatalogService/data/" + catalogId + ".csv";
+		File file = new File("/tmp/CatalogService/data/" + catalogId + ".csv");
 
-		this.load(sample, fileName, result);
+		this.load(sample, file, result);
+		
 		return Response.ok(result).build();
 	}
 
+	
+	
 	@POST
-	@Path("/form-upload-file")
+	@Path("/load1")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces("application/json; charset=UTF-8")
+	public Response uploadFile1(
+		//@PathParam("catalogId") String catalogId,
+		//@PathParam("catalogVersion") int catalogVersion,
+		@FormParam("catalogId") String catalogId,
+		@FormParam("catalogVersion") int catalogVersion,
+		@FormParam("attachment") File file)
+	{
+		//String catalogId = "iso-3166-1-alpha2";
+		//int catalogVersion = 0; 
+		System.err.println("######## " + file + "################");
+		if (file == null)
+		{
+			return Response.status(Response.Status.PRECONDITION_FAILED).build();
+		}
+		
+		BulkLoadResult result = new BulkLoadResult();
+
+		CatalogEntry sample = new CatalogEntry();
+		sample.setCatalogId(catalogId);
+		sample.setCatalogVersion(catalogVersion);
+
+		this.load(sample, file, result);
+		
+		try
+		{
+			return Response.created(new URI("./" + catalogId + "/" + catalogVersion)).build();
+		}
+		catch (URISyntaxException e)
+		{
+			e.printStackTrace();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	// A version using HttpServletRequest
+	
+	@POST
+	@Path("/load2")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces("text/xml; charset=UTF-8")
-	public Response httpLoadFromClientFile(@Context HttpServletRequest request)
+	public Response uploadFile12(@Context HttpServletRequest request)
 	{
 		MultipartRequestMap map = new MultipartRequestMap(request);
 
@@ -135,12 +162,12 @@ public class AdminEndpoint extends BaseEndpoint
 		}
 	}
 
-	private void load(CatalogEntry sample, String fileName, BulkLoadResult result)
+	private void load(CatalogEntry sample, File file, BulkLoadResult result)
 	{
 		FileInputStream in;
 		try
 		{
-			in = new FileInputStream(fileName);
+			in = new FileInputStream(file);
 		}
 		catch (FileNotFoundException e)
 		{
@@ -170,7 +197,7 @@ public class AdminEndpoint extends BaseEndpoint
 	private void load(CatalogEntry sample, InputStream in, BulkLoadResult result)
 	{
 		final long start = System.currentTimeMillis();
-		
+
 		try
 		{
 			userTransaction.begin();
@@ -251,7 +278,7 @@ public class AdminEndpoint extends BaseEndpoint
 		}
 
 		final long end = System.currentTimeMillis();
-		
+
 		result.setStatus(BulkLoadResult.STATUS_OK);
 		result.setTimeInMilliSeconds(end - start);
 		result.setReceivedEntries(readRecords);

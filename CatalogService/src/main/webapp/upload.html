@@ -3,26 +3,54 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Catalog Upload</title>
+<script type="text/javascript">
+function submitForm1()
+{
+ document.form1.action = "api/catalogs/load1";
+ document.form1.submit();
+}
+function submitForm2()
+{
+ document.form2.action = "api/catalogs/load2";
+ document.form2.submit();
+}
+function submitForm3()
+{
+ document.form2.action = "api/catalogs/reload";
+ //document.form3.action = "admin-api/catalogs/reload/" + document.form3.catalogId.value + "/" + document.form3.catalogVersion.value;
+ document.form3.submit();
+}
+</script>
 </head>
 <body>
-	<h1>Catalog Upload using local file</h1>
-	<form action="admin-api/catalogs/form-upload-file" method="post" enctype="multipart/form-data">
+	<h1>Catalog Upload using local file (1)</h1>
+	<form name="form1" action="" method="post" enctype="multipart/form-data">
 	<table style="width: 80%; table-layout: fixed;">
 		<tr><td style="width: 20%"><label for="catalogId">Catalog ID</label></td><td><input type="text" name="catalogId" placeholder="catalog id, e.g. iso-3166-1-alpha2" value="iso-3166-1-alpha2" style="width: 70%"/></td></tr>
 		<tr><td><label for="catalogVersion">Catalog Version</label></td><td><input type="text" name="catalogVersion" placeholder="version (integer starting with 0)" value="0" style="width: 70%"/></td></tr>
 		<tr><td><label for="attachment">CSV File</label></td><td><input type="file" name="attachment" style="width: 70%"/></td></tr>
-		<tr><td colspan="2"><input type="submit" value="Submit" /></td></tr>
+		<tr><td colspan="2"><input type="submit" value="Submit" onclick="submitForm1()" /></td></tr>
+	</table>
+	</form>
+	
+	<h1>Catalog Upload using local file (2)</h1>
+	<form name="form2" action="" method="post" enctype="multipart/form-data">
+	<table style="width: 80%; table-layout: fixed;">
+		<tr><td style="width: 20%"><label for="catalogId">Catalog ID</label></td><td><input type="text" name="catalogId" placeholder="catalog id, e.g. iso-3166-1-alpha2" value="iso-3166-1-alpha2" style="width: 70%"/></td></tr>
+		<tr><td><label for="catalogVersion">Catalog Version</label></td><td><input type="text" name="catalogVersion" placeholder="version (integer starting with 0)" value="0" style="width: 70%"/></td></tr>
+		<tr><td><label for="attachment">CSV File</label></td><td><input type="file" name="attachment" style="width: 70%"/></td></tr>
+		<tr><td colspan="2"><input type="submit" value="Submit" onclick="submitForm2()" /></td></tr>
 	</table>
 	</form>
 	
 	<hr />
 	
-	<h1>Catalog Upload using server file</h1>
-	<form action="admin-api/catalogs/server-load" method="post">
+	<h1>Catalog load using file on server (3)</h1>
+	<form name="form3" action="" method="post">
 	<table style="width: 80%; table-layout: fixed;">
 		<tr><td style="width: 20%"><label for="catalogId">Catalog ID</label></td><td><input type="text" name="catalogId" placeholder="catalog id, e.g. iso-3166-1-alpha2" value="iso-3166-1-alpha2" style="width: 70%"/></td></tr>
 		<tr><td><label for="catalogVersion">Catalog Version</label></td><td><input type="text" name="catalogVersion" placeholder="version (integer starting with 0)" value="0" style="width: 70%"/></td></tr>
-		<tr><td colspan="2"><input type="submit" value="Submit" /></td></tr>
+		<tr><td colspan="2"><input type="submit" value="Submit" onclick="submitForm3()" /></td></tr>
 	</table>
 	</form>
 	

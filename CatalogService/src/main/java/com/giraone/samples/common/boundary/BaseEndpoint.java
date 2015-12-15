@@ -1,5 +1,6 @@
 package com.giraone.samples.common.boundary;
 
+import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
@@ -93,7 +94,7 @@ public class BaseEndpoint
 				logger.debug(LOG_TAG, "Entering: " + invocationContext.getTarget().getClass().getSimpleName() + "."
 					+ invocationContext.getMethod().getName());
 				
-				// Logs all parameters with their annotations
+				// Logs all parameters except file uploads with their annotations
 				StringBuilder sb = new StringBuilder();
 				Annotation[][] annotations = method.getParameterAnnotations();
 				Object[] params = invocationContext.getParameters();
@@ -114,9 +115,18 @@ public class BaseEndpoint
 					sb.append("=");
 					Object param = params[i];
 					if (param instanceof String)
+					{
 						sb.append(StringUtil.serializeAsJavaString((String) param));
+					}
+					else if (param instanceof File)
+					{
+						final File file = (File) param;
+						sb.append("FILE[path=" + file.getAbsolutePath() + ", size=" + file.length() + "]");
+					}
 					else
+					{
 						sb.append(param);
+					}
 				}
 				logger.debug(LOG_TAG, "  Params: " + (sb == null ? "null" : sb.toString()));				
 			}
