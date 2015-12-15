@@ -7,19 +7,23 @@
 <body>
 	<h1>Catalog Upload using local file</h1>
 	<form action="admin-api/catalogs/form-upload-file" method="post" enctype="multipart/form-data">
-		<label for="">Catalog ID</label><input type="text" name="catalogId" placeholder="catalog id, e.g. iso-3166-1-alpha2" value="iso-3166-1-alpha2"/><br />
-		<label for="">Catalog Version</label><input type="text" name="catalogVersion" placeholder="version (integer starting with 0)" value="0"/><br />
-		<label for="">CSV File</label><input type="file" name="attachment" /><br />
-		<input type="submit" value="Submit" />
+	<table style="width: 80%; table-layout: fixed;">
+		<tr><td style="width: 20%"><label for="catalogId">Catalog ID</label></td><td><input type="text" name="catalogId" placeholder="catalog id, e.g. iso-3166-1-alpha2" value="iso-3166-1-alpha2" style="width: 70%"/></td></tr>
+		<tr><td><label for="catalogVersion">Catalog Version</label></td><td><input type="text" name="catalogVersion" placeholder="version (integer starting with 0)" value="0" style="width: 70%"/></td></tr>
+		<tr><td><label for="attachment">CSV File</label></td><td><input type="file" name="attachment" style="width: 70%"/></td></tr>
+		<tr><td colspan="2"><input type="submit" value="Submit" /></td></tr>
+	</table>
 	</form>
 	
 	<hr />
 	
 	<h1>Catalog Upload using server file</h1>
 	<form action="admin-api/catalogs/server-load" method="post">
-		<label for="">Catalog ID</label><input type="text" name="catalogId" placeholder="catalog id, e.g. iso-3166-1-alpha2" value="iso-3166-1-alpha2"/><br />
-		<label for="">Catalog Version</label><input type="text" name="catalogVersion" placeholder="version (integer starting with 0)" value="0"/><br />
-		<input type="submit" value="Submit" />
+	<table style="width: 80%; table-layout: fixed;">
+		<tr><td style="width: 20%"><label for="catalogId">Catalog ID</label></td><td><input type="text" name="catalogId" placeholder="catalog id, e.g. iso-3166-1-alpha2" value="iso-3166-1-alpha2" style="width: 70%"/></td></tr>
+		<tr><td><label for="catalogVersion">Catalog Version</label></td><td><input type="text" name="catalogVersion" placeholder="version (integer starting with 0)" value="0" style="width: 70%"/></td></tr>
+		<tr><td colspan="2"><input type="submit" value="Submit" /></td></tr>
+	</table>
 	</form>
 	
 </body>
