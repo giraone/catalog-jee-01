@@ -1,20 +1,47 @@
-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-	version="3.1">
-	<servlet>
-		<servlet-name>com.giraone.samples.catalog1.boundary.AdminApi</servlet-name>
-		<multipart-config>
-			<location>/tmp</location>
-			<max-file-size>35000000</max-file-size>
-			<max-request-size>218018841</max-request-size>
-			<file-size-threshold>0</file-size-threshold>
-		</multipart-config>
-	</servlet>
-	<!--
-	Not needed!
-	<servlet-mapping>
-		<servlet-name>com.giraone.samples.catalog1.boundary.AdminApi</servlet-name>
-		<url-pattern>/admin-api/*</url-pattern>
-	</servlet-mapping>
-	-->
+<?xml version="1.0"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+ 
+ <servlet>
+  <servlet-name>com.giraone.samples.catalog1.boundary.AdminApi</servlet-name>
+  <multipart-config>
+   <location>/tmp</location>
+   <max-file-size>35000000</max-file-size>
+   <max-request-size>218018841</max-request-size>
+   <file-size-threshold>0</file-size-threshold>
+  </multipart-config>
+ </servlet>
+ 
+ <security-constraint>
+  <web-resource-collection>
+   <web-resource-name>maintenance-api</web-resource-name>
+   <description>REST API for maintenance</description>
+   <url-pattern>/admin-api/*</url-pattern>
+  </web-resource-collection>
+  <auth-constraint>
+   <role-name>administration</role-name>
+  </auth-constraint>
+ </security-constraint>
+ 
+ <security-constraint>
+  <web-resource-collection>
+   <web-resource-name>maintenance-pages</web-resource-name>
+   <description>HTML pages for maintenance</description>
+   <url-pattern>/admin/*</url-pattern>
+  </web-resource-collection>
+  <auth-constraint>
+   <role-name>administration</role-name>
+  </auth-constraint>
+ </security-constraint>
+ 
+ <login-config>
+  <auth-method>BASIC</auth-method>
+  <realm-name>Catalog Administration</realm-name>
+ </login-config>
+ 
+ <security-role>
+  <description>Users with this role may add or update catalogs.</description>
+  <role-name>administration</role-name>
+ </security-role>
+ 
 </web-app>

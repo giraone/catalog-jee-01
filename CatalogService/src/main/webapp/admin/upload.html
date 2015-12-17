@@ -6,13 +6,13 @@
 <script type="text/javascript">
 function submitForm1()
 {
- document.form1.action = "admin-api/catalogs-multipart/upload";
+ document.form1.action = "../admin-api/catalogs-multipart/upload";
  document.form1.submit();
  return true;
 }
 function submitForm2()
 {
- var url = "admin-api/catalogs/upload/" + document.form2.catalogId.value + "/" + document.form2.catalogVersion.value;
+ var url = "../admin-api/catalogs/upload/" + document.form2.catalogId.value + "/" + document.form2.catalogVersion.value;
  var content = document.form2.content.value;
 
  var xhttp = new XMLHttpRequest();
