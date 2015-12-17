@@ -1,0 +1,45 @@
+<server>
+	<featureManager>
+		<feature>jsp-2.3</feature>
+		<feature>jndi-1.0</feature>
+		<feature>jpa-2.1</feature>
+		<feature>jaxrs-2.0</feature>
+		<feature>cdi-1.2</feature>
+		<feature>ejb-3.2</feature>
+		<feature>appSecurity-2.0</feature>
+	</featureManager>
+	
+	<application name='CatalogService' location='CatalogService.war' type='war' context-root='/'>
+		<application-bnd>
+    		<security-role name="administration">
+    			<user name="admin"></user>
+    		</security-role>
+    	</application-bnd>
+	</application>
+	
+	<cdi12 enableImplicitBeanArchives='true' />
+	<httpEndpoint id='defaultHttpEndpoint' host='*' httpPort='${port}' />
+	<webContainer trustHostHeaderPort='true' extractHostHeaderPort='true' />
+	<include location='runtime-vars.xml' />
+	<logging logDirectory='${application.log.dir}' consoleLogLevel='INFO' />
+	<httpDispatcher enableWelcomePage='false' />
+	<applicationMonitor dropinsEnabled='false' updateTrigger='mbean' />
+	<config updateTrigger='mbean' />
+		    
+    <basicRegistry>
+    	<user password="a-password" name="admin"></user>
+    </basicRegistry>
+	
+	<dataSource id='db2-catalogjee1sqldb' jdbcDriverRef='db2-driver' jndiName='jdbc/catalogjee1sqldb'
+		statementCacheSize='30' transactional='true'>
+		<properties.db2.jcc databaseName='${cloud.services.catalogjee1sqldb.connection.db}' id='db2-catalogjee1sqldb-props'
+			password='${cloud.services.catalogjee1sqldb.connection.password}' portNumber='${cloud.services.catalogjee1sqldb.connection.port}'
+			serverName='${cloud.services.catalogjee1sqldb.connection.host}' user='${cloud.services.catalogjee1sqldb.connection.username}' />
+	</dataSource>
+
+	<jdbcDriver id='db2-driver' libraryRef='db2-library'>  
+		<library id='db2-library'>
+			<fileset dir='${server.config.dir}/lib' id='db2-fileset' includes='db2jcc4.jar'/>   
+		</library>
+	</jdbcDriver>
+</server>
