@@ -11,7 +11,7 @@ public class CoreApi extends Application
 {
 	public final static String PERSISTENCE_UNIT = "primary";
 	
-	//Override because we have two base paths.
+	//Override because we have multiple base paths.
 	// See http://www.adam-bien.com/roller/abien/entry/multiple_jax_rs_uris_in
 	
 	@Override
@@ -19,7 +19,6 @@ public class CoreApi extends Application
 	{
 		Set<Class<?>> resources = new HashSet<>();
 		resources.add(ProviderEndpoint.class);
-		resources.add(AdminEndpoint.class);
 		return resources;
 	}
 }

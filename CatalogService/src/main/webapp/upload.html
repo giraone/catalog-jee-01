@@ -6,24 +6,32 @@
 <script type="text/javascript">
 function submitForm1()
 {
- document.form1.action = "api/catalogs/load1";
+ document.form1.action = "admin-api/catalogs-multipart/upload";
  document.form1.submit();
+ return true;
 }
 function submitForm2()
 {
- document.form2.action = "api/catalogs/load2";
- document.form2.submit();
-}
-function submitForm3()
-{
- document.form2.action = "api/catalogs/reload";
- //document.form3.action = "admin-api/catalogs/reload/" + document.form3.catalogId.value + "/" + document.form3.catalogVersion.value;
- document.form3.submit();
+ var url = "admin-api/catalogs/upload/" + document.form2.catalogId.value + "/" + document.form2.catalogVersion.value;
+ var content = document.form2.content.value;
+
+ var xhttp = new XMLHttpRequest();
+ xhttp.open("POST", url, true);
+ xhttp.setRequestHeader("Content-type", "application/octet-stream");
+ xhttp.onreadystatechange = function() {
+   if (xhttp.readyState == 4)
+   {
+	   document.form2.response.value = xhttp.status + "\r\n\r\n" + xhttp.responseText;
+   }
+ };
+ alert(url + " " + content.length);
+ xhttp.send(content);
+ return false;
 }
 </script>
 </head>
 <body>
-	<h1>Catalog Upload using local file (1)</h1>
+	<h1>Catalog upload using local CSV file (multi-part)</h1>
 	<form name="form1" action="" method="post" enctype="multipart/form-data">
 	<table style="width: 80%; table-layout: fixed;">
 		<tr><td style="width: 20%"><label for="catalogId">Catalog ID</label></td><td><input type="text" name="catalogId" placeholder="catalog id, e.g. iso-3166-1-alpha2" value="iso-3166-1-alpha2" style="width: 70%"/></td></tr>
@@ -33,24 +41,14 @@ function submitForm3()
 	</table>
 	</form>
 	
-	<h1>Catalog Upload using local file (2)</h1>
-	<form name="form2" action="" method="post" enctype="multipart/form-data">
+	<h1>Catalog upload using local CSV content (no multi-part - plain POST with AJAX)</h1>
+	<form name="form2">
 	<table style="width: 80%; table-layout: fixed;">
 		<tr><td style="width: 20%"><label for="catalogId">Catalog ID</label></td><td><input type="text" name="catalogId" placeholder="catalog id, e.g. iso-3166-1-alpha2" value="iso-3166-1-alpha2" style="width: 70%"/></td></tr>
 		<tr><td><label for="catalogVersion">Catalog Version</label></td><td><input type="text" name="catalogVersion" placeholder="version (integer starting with 0)" value="0" style="width: 70%"/></td></tr>
-		<tr><td><label for="attachment">CSV File</label></td><td><input type="file" name="attachment" style="width: 70%"/></td></tr>
-		<tr><td colspan="2"><input type="submit" value="Submit" onclick="submitForm2()" /></td></tr>
-	</table>
-	</form>
-	
-	<hr />
-	
-	<h1>Catalog load using file on server (3)</h1>
-	<form name="form3" action="" method="post">
-	<table style="width: 80%; table-layout: fixed;">
-		<tr><td style="width: 20%"><label for="catalogId">Catalog ID</label></td><td><input type="text" name="catalogId" placeholder="catalog id, e.g. iso-3166-1-alpha2" value="iso-3166-1-alpha2" style="width: 70%"/></td></tr>
-		<tr><td><label for="catalogVersion">Catalog Version</label></td><td><input type="text" name="catalogVersion" placeholder="version (integer starting with 0)" value="0" style="width: 70%"/></td></tr>
-		<tr><td colspan="2"><input type="submit" value="Submit" onclick="submitForm3()" /></td></tr>
+		<tr><td><label for="content">CSV Content</label></td><td><textarea name="content" style="width: 70%">Paste content here!</textarea></td></tr>
+		<tr><td><label for="content">Response</label></td><td><textarea name="response" style="width: 70%">- no response yet -</textarea></td></tr>
+		<tr><td colspan="2"><input type="button" value="Submit" onclick="submitForm2()" /></td></tr>
 	</table>
 	</form>
 	

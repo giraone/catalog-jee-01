@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	version="3.1">
 	<servlet>
-		<servlet-name>javax.ws.rs.core.Application</servlet-name>
+		<servlet-name>com.giraone.samples.catalog1.boundary.AdminApi</servlet-name>
 		<multipart-config>
 			<location>/tmp</location>
 			<max-file-size>35000000</max-file-size>
@@ -11,9 +11,10 @@
 		</multipart-config>
 	</servlet>
 	<!--
+	Not needed!
 	<servlet-mapping>
-		<servlet-name>javax.ws.rs.core.Application</servlet-name>
-		<url-pattern>/*</url-pattern>
+		<servlet-name>com.giraone.samples.catalog1.boundary.AdminApi</servlet-name>
+		<url-pattern>/admin-api/*</url-pattern>
 	</servlet-mapping>
 	-->
 </web-app>

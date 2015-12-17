@@ -2,6 +2,9 @@ package com.giraone.samples.catalog1.boundary.model;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement (name = "BulkLoadResult", namespace = "http://www.giraone.com/samples/catalog1" )
 public class BulkLoadResult implements Serializable
 {
 	private static final long serialVersionUID = 1L;
