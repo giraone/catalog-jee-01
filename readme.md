@@ -49,6 +49,9 @@ mvn package
 
 ## Goals of this project ##
 - Providing language dependant dictionaries in JSON format for rich internet application.
+- Offering a maintenance interface.
+  - Currently there is only an upload feature based on multipart upload and simple POST upload. See [upload.html](CatalogService/src/main/webapp/admin/upload.html).
+  - The maintenance interface is secured by BASIC authentication. See [web.xml](CatalogService/src/main/webapp/WEB-INF/web.xml). 
 - Validating codes in JAX-RS requests when JSON models are using these kind of enumerations, that are to large for Java *enum*.
 
 ## TODOs ##
