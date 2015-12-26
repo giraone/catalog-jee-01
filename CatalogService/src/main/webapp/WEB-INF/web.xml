@@ -1,7 +1,15 @@
 <?xml version="1.0"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
- 
+ <filter>
+  <description>Sets Access-Control-Allow-Origin=[*]</description>
+  <filter-name>CorsFilter</filter-name>
+  <filter-class>com.giraone.samples.common.boundary.CorsFilter</filter-class>
+ </filter>
+ <filter-mapping>
+  <filter-name>CorsFilter</filter-name>
+  <servlet-name>com.giraone.samples.catalog1.boundary.CoreApi</servlet-name>
+ </filter-mapping>
  <servlet>
   <servlet-name>com.giraone.samples.catalog1.boundary.AdminApi</servlet-name>
   <multipart-config>
@@ -11,7 +19,9 @@
    <file-size-threshold>0</file-size-threshold>
   </multipart-config>
  </servlet>
- 
+ <servlet>
+  <servlet-name>com.giraone.samples.catalog1.boundary.CoreApi</servlet-name>
+ </servlet>
  <security-constraint>
   <web-resource-collection>
    <web-resource-name>maintenance-api</web-resource-name>
@@ -22,7 +32,6 @@
    <role-name>administration</role-name>
   </auth-constraint>
  </security-constraint>
- 
  <security-constraint>
   <web-resource-collection>
    <web-resource-name>maintenance-pages</web-resource-name>
@@ -33,15 +42,12 @@
    <role-name>administration</role-name>
   </auth-constraint>
  </security-constraint>
- 
  <login-config>
   <auth-method>BASIC</auth-method>
   <realm-name>Catalog Administration</realm-name>
  </login-config>
- 
  <security-role>
   <description>Users with this role may add or update catalogs.</description>
   <role-name>administration</role-name>
  </security-role>
- 
 </web-app>
