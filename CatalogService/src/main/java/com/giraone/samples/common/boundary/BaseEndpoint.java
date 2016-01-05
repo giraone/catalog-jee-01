@@ -52,8 +52,8 @@ public class BaseEndpoint
 	@OPTIONS
 	public Response options()
 	{
-		return Response.status(Response.Status.NO_CONTENT).header(CORS_ALLOW_ORIGIN_HEADER, "*") // "127.0.0.1" does not
-																									// work
+		return Response
+			.status(Response.Status.NO_CONTENT).header(CORS_ALLOW_ORIGIN_HEADER, "*") // "127.0.0.1" does not work
 			.header(CORS_ALLOW_METHODS_HEADER, "GET, POST, DELETE, PUT, OPTIONS") // * THIS DOES NOT WORK HERE!
 			.header(CORS_ALLOW_REQUEST_HEADER, "content-type").build();
 	}
@@ -63,8 +63,8 @@ public class BaseEndpoint
 	@Path("{path:.*}")
 	public Response optionsAll(@PathParam("path") String path)
 	{
-		return Response.status(Response.Status.NO_CONTENT).header(CORS_ALLOW_ORIGIN_HEADER, "*") // "127.0.0.1" does not
-																									// work
+		return Response
+			.status(Response.Status.NO_CONTENT).header(CORS_ALLOW_ORIGIN_HEADER, "*") // "127.0.0.1" does not work
 			.header(CORS_ALLOW_METHODS_HEADER, "GET, POST, DELETE, PUT, OPTIONS") // * THIS DOES NOT WORK HERE!
 			.header(CORS_ALLOW_REQUEST_HEADER, "content-type").build();
 	}
