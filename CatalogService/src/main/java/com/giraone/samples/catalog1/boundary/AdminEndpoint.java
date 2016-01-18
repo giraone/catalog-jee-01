@@ -10,11 +10,13 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -37,6 +39,7 @@ public class AdminEndpoint extends AdminBaseEndpoint
 	public Response uploadFileUsingSimplePost(
 		@PathParam("catalogId") String catalogId,
 		@PathParam("catalogVersion") int catalogVersion,
+		@QueryParam("ignoreDuplicates") @DefaultValue("true") boolean ignoreDuplicates,
 		String content)
 	{		
 		if (content == null || content.length() < 10)
@@ -62,7 +65,7 @@ public class AdminEndpoint extends AdminBaseEndpoint
 		sample.setCatalogId(catalogId);
 		sample.setCatalogVersion(catalogVersion);
 
-		this.load(sample, in, result);
+		this.load(sample, in, result, ignoreDuplicates);
 		
 		try
 		{
@@ -82,6 +85,7 @@ public class AdminEndpoint extends AdminBaseEndpoint
 	public Response uploadFileUsingMultipartPost(
 		@FormParam("catalogId") String catalogId,
 		@FormParam("catalogVersion") int catalogVersion,
+		@FormParam("ignoreDuplicates") @DefaultValue("true") boolean ignoreDuplicates,
 		@FormParam("attachment") File file)
 	{
 		if (file == null)
@@ -96,7 +100,7 @@ public class AdminEndpoint extends AdminBaseEndpoint
 		sample.setCatalogId(catalogId);
 		sample.setCatalogVersion(catalogVersion);
 
-		this.load(sample, file, result);
+		this.load(sample, file, result, ignoreDuplicates);
 		
 		try
 		{

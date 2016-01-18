@@ -11,8 +11,10 @@ import java.io.UnsupportedEncodingException;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.UserTransaction;
 
@@ -35,7 +37,7 @@ public class AdminBaseEndpoint extends BaseEndpoint
 	@Resource
 	private UserTransaction userTransaction;
 
-	protected void load(CatalogEntry sample, File file, BulkLoadResult result)
+	protected void load(CatalogEntry sample, File file, BulkLoadResult result, boolean ignoreDuplicates)
 	{
 		FileInputStream in;
 		try
@@ -51,7 +53,7 @@ public class AdminBaseEndpoint extends BaseEndpoint
 		}
 		try
 		{
-			this.load(sample, in, result);
+			this.load(sample, in, result, ignoreDuplicates);
 		}
 		finally
 		{
@@ -67,7 +69,7 @@ public class AdminBaseEndpoint extends BaseEndpoint
 	}
 
 	// iso-3166-1-alpha2.csv => 328 milliseconds without performance optimization
-	protected void load(CatalogEntry sample, InputStream in, BulkLoadResult result)
+	protected void load(CatalogEntry sample, InputStream in, BulkLoadResult result, boolean ignoreDuplicates)
 	{
 		final long start = System.currentTimeMillis();
 
@@ -133,7 +135,30 @@ public class AdminBaseEndpoint extends BaseEndpoint
 						newEntry.setEntryText3(record.get(3).trim());
 					}
 				}
-				em.persist(newEntry);
+				if (ignoreDuplicates)
+				{
+					CriteriaBuilder cb = em.getCriteriaBuilder();
+					CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+					Root<CatalogEntry> table = countQuery.from(CatalogEntry.class);
+					countQuery.select(cb.count(table));
+					countQuery.where(
+						cb.and(
+							cb.equal(table.get(CatalogEntry_.SQL_NAME_catalogId), newEntry.getCatalogId()),
+							cb.equal(table.get(CatalogEntry_.SQL_NAME_catalogVersion), newEntry.getCatalogVersion()),
+							cb.equal(table.get(CatalogEntry_.SQL_NAME_entryCode), newEntry.getEntryCode())
+						));
+					TypedQuery<Long> tq = em.createQuery(countQuery);
+					long count = tq.getSingleResult().longValue();
+					if (count == 0)
+					{
+						em.persist(newEntry);
+					}
+				}
+				else
+				{
+					em.persist(newEntry);
+				}
+				
 				processedRecords++;
 			}
 		}

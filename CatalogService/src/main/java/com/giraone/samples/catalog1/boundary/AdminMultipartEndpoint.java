@@ -46,6 +46,7 @@ public class AdminMultipartEndpoint extends AdminBaseEndpoint
 		CatalogEntry sample = new CatalogEntry();
 		sample.setCatalogId(map.getStringParameter("catalogId"));
 		sample.setCatalogVersion(Integer.parseInt(map.getStringParameter("catalogVersion")));
+		boolean ignoreDuplicates = true;
 		File file = map.getFileParameter("attachment");
 		
 		System.err.println("#AdminMultipartEndpoint.uploadFileUsingMultipartPost#" + file.getAbsolutePath().substring(0, Math.min(file.getAbsolutePath().length(), 80)) + "#");
@@ -62,7 +63,7 @@ public class AdminMultipartEndpoint extends AdminBaseEndpoint
 
 		try
 		{
-			this.load(sample, in, result);
+			this.load(sample, in, result, ignoreDuplicates);
 			return Response.ok(result).build();
 		}
 		finally
