@@ -46,7 +46,9 @@ public class AdminMultipartEndpoint extends AdminBaseEndpoint
 		CatalogEntry sample = new CatalogEntry();
 		sample.setCatalogId(map.getStringParameter("catalogId"));
 		sample.setCatalogVersion(Integer.parseInt(map.getStringParameter("catalogVersion")));
-		boolean ignoreDuplicates = true;
+		String ignoreDuplicatesString = map.getStringParameter("ignoreDuplicates");
+		boolean ignoreDuplicates = ignoreDuplicatesString == null || ignoreDuplicatesString.trim().length() == 0 ? true :
+			Boolean.parseBoolean(ignoreDuplicatesString);
 		File file = map.getFileParameter("attachment");
 		
 		System.err.println("#AdminMultipartEndpoint.uploadFileUsingMultipartPost#" + file.getAbsolutePath().substring(0, Math.min(file.getAbsolutePath().length(), 80)) + "#");
