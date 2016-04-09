@@ -30,10 +30,6 @@ This is a subset of the ISO-3166-1-Alpha2 country codes, with their english name
 ]
 ```
 
-The above examples are available using the URLs:
-- [http://catalogjee1.eu-gb.mybluemix.net/api/catalogs/iso-3166-1-alpha2/scope-list/en]
-- [http://catalogjee1.eu-gb.mybluemix.net/api/catalogs/iso-3166-1-alpha2/scope-list/de]
-
 ## Prerequisites to develop locally and run the project ##
 - Maven 3
 - A JEE7 compliant application server. In detail, we need:
